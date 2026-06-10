@@ -1,7 +1,7 @@
 package br.com.javagotchi;
 
 public class Javagotchi {
-    private int hp, fome, idade, higiene, energia;
+    private int hp = 100, fome = 0, idade = 0, higiene = 100, energia = 100;
     private String nome;
 
     public int getHp(){

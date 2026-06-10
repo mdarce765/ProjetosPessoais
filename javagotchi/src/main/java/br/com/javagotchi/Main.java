@@ -11,16 +11,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Main {
 	static Scanner sc = new Scanner(System.in);
 	static Javagotchi jc = new Javagotchi();
-	static File arq = new File("Javagotchi.txt");
 
 	public static void main(String[] args) {
 		do{
 			System.out.print("""
-							1 - Carregar Javagotchi
+							\n1 - Carregar Javagotchi
 							2 - Criar novo Javagotchi
+							3 - Ver Javagotchis
 							0 - Sair\n
-							Digite a sua opção:
-							""");
+							Digite a sua opção: """);
 			int opcao = sc.nextInt();
 			switch(opcao){
 					case 0 -> {
@@ -29,7 +28,7 @@ public class Main {
 					}
 					//case 1 -> carregarJavagotchi();
 					case 2 -> criarJavagotchi();
-					//case 3 -> verJavagotchis();
+					case 3 -> verJavagotchis();
 					default -> System.out.println("OPÇÃO INVÁLIDA");
 				}
 		}while(true);
@@ -38,26 +37,33 @@ public class Main {
 	private static void criarJavagotchi(){
 		int escolha;
 		String nome;
+
 		do{
 			System.out.print("Digite o nome do seu Javagotchi: ");
 			nome = sc.next();
 			jc.setNome(nome);
-
-			System.out.print("NOME: " + jc.getNome() + "\nDeseja mudar o nome? \n1 - Sim\n2 - Não\n\nDigite sua escolha: ");
+			System.out.print("\nNOME: " + jc.getNome() + "\nDeseja manter o nome? \n1 - Sim\n2 - Não\n\nDigite sua escolha: ");
 			escolha = sc.nextInt();
-		}while(escolha != 2);
+		}while(escolha != 1);
 
-		try{
-				FileWriter escritor = new FileWriter("Javagotchi.txt");
-				escritor.write(nome + "," + 100 + "," + 0 + "," + 0 + "," + 100 + "," + 100 + ";");
-				escritor.close();
-			}catch(IOException e) {
-				System.out.println("An error occurred.");
-				e.printStackTrace();
-			}
+		try(FileWriter escritor = new FileWriter("Javagotchi.txt", true);){
+			escritor.write(nome + "," + jc.getHp() + "," + jc.getFome() + "," + jc.getIdade() + "," + jc.getHigiene() + "," + jc.getEnergia() + ";\n");
+		}catch(IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
 	}
 
-	/*private static void verJavagotchis(){
-			
-	}*/
+	private static void verJavagotchis(){
+		File arquivo = new File("Javagotchi.txt");
+		try(Scanner leitor = new Scanner(arquivo)){
+			while(leitor.hasNextLine()){
+				String dados = leitor.nextLine();
+				System.out.println(dados);
+			}
+		}catch(IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+	}
 }
