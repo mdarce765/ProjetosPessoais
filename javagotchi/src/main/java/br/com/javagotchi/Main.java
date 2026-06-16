@@ -36,6 +36,7 @@ public class Main {
 	}
 
 	private static void carregarJavagotchi(){
+		System.out.println("-- CARREGANDO JAVAGOTCHI --");
 		verJavagotchis();
 		System.out.print("Digite o id do Javagotchi que deseja carregar: ");
 		opcao = Integer.parseInt(sc.nextLine());
@@ -50,29 +51,27 @@ public class Main {
 			System.out.println("Algum erro aconteceu durante a escrita!");
 			e.printStackTrace();
 		}
+
+		System.out.println("-- JAVAGOTCHI CARREGADO -- ");
 		
 	}
 
 	private static void criarJavagotchi(){
-		String nome;
 
-		do{
-			System.out.print("Digite o nome do seu Javagotchi: ");
-			nome = sc.nextLine();
-			jc.setNome(nome);
-			System.out.print("\nNOME: " + jc.getNome() + "\nDeseja manter o nome? \n1 - Sim\n2 - Não\n\nDigite sua escolha: ");
-			opcao = Integer.parseInt(sc.nextLine());
-		}while(opcao != 1);
+		System.out.println("-- CRIANDO UM NOVO JAVAGOTCHI --");
 
 		try(FileWriter escritor = new FileWriter("Javagotchis.txt", true);){
-			escritor.write(nome + "," + jc.getHp() + "," + jc.getFome() + "," + jc.getIdade() + "," + jc.getHigiene() + "," + jc.getEnergia() + "\n");
+			escritor.write(criar("") + "," + jc.getHp() + "," + jc.getFome() + "," + jc.getIdade() + "," + jc.getHigiene() + "," + jc.getEnergia() + "\n");
 		}catch(IOException e) {
 			System.out.println("Algum erro aconteceu durante a escrita!");
 			e.printStackTrace();
 		}
+
+		System.out.println("-- JAVAGOTCHI CRIADO E SALVO --");
 	}
 
 	private static void verJavagotchis(){
+		System.out.println("-- VISUALIZAÇÃO DE JAVAGOTCHIS --");
 		File arquivo = new File("Javagotchis.txt");
 		listaJavagotchi.clear();
 		System.out.println("id - NOME");
@@ -86,47 +85,28 @@ public class Main {
 			e.printStackTrace();
 		}
 
-		for(int i =0; i<listaJavagotchi.size(); i++){
+		for(int i = 0; i < listaJavagotchi.size(); i++){
 			System.out.println(i + " - " + listaJavagotchi.get(i));
 		}
+
+		System.out.println("-- FIM DA LEITURA --");
 	}
 
 	private static void atualizarJavagotchi(){
-		String novoNome;
+		System.out.println("-- ATUALIZAÇÃO DE JAVAGOTCHI --");
 		verJavagotchis();
 		System.out.print("Digite o id do Javagotchi que deseja atualizar: ");
 		int id = Integer.parseInt(sc.nextLine());
 
-		//String[] escolhido = listaJavagotchi.get(opcao).trim().split(",");
+		listaJavagotchi.set(id, criar("novo") + "," + jc.getHp() + "," + jc.getFome() + "," + jc.getIdade() + "," + jc.getHigiene() + "," + jc.getEnergia());
 
-		//System.out.println(escolhido[0]);
-		System.out.println(listaJavagotchi);
+		escreverArquivo(listaJavagotchi);
 
-		do{
-			System.out.print("Digite o novo nome do seu Javagotchi: ");
-			novoNome = sc.nextLine();
-			System.out.print("\nNOVO NOME: " + novoNome + "\nDeseja manter o nome? \n1 - Sim\n2 - Não\n\nDigite sua escolha: ");
-			opcao = Integer.parseInt(sc.nextLine());
-		}while(opcao != 1);
-
-		listaJavagotchi.set(id, novoNome + "," + jc.getHp() + "," + jc.getFome() + "," + jc.getIdade() + "," + jc.getHigiene() + "," + jc.getEnergia());
-		//escolhido[0] = novoNome;
-
-		//System.out.println(escolhido[0]);
-		System.out.println(listaJavagotchi);
-
-		try(FileWriter escritor = new FileWriter("Javagotchis.txt");){
-			for(int i = 0; i < listaJavagotchi.size(); i++){
-				escritor.write(listaJavagotchi.get(i) + "\n");
-			}
-		}catch(IOException e) {
-			System.out.println("Algum erro aconteceu durante a escrita!");
-			e.printStackTrace();
-		}
-
+		System.out.println("-- JAVAGOTCHI ATUALIZADO E SALVO COM SUCESSO --");
 	}
 
 	private static void apagarJavagotchi(){
+		System.out.println("-- APAGAR JAVAGOTCHI -- tem certeza disso? precisa mesmo apagar? não pode só editar? :(");
 		verJavagotchis();
 
 		System.out.print("Digite o id do Javagotchi que deseja apagar: ");
@@ -134,6 +114,12 @@ public class Main {
 
 		listaJavagotchi.remove(opcao);
 
+		escreverArquivo(listaJavagotchi);
+		
+		System.out.println("-- VOCÊ APAGOU UM JAVAGOTCHI, ISSO NÃO LHE ENTRISTECE? VOCÊ É MESMO HUMANO? --");
+	}
+
+	private static void escreverArquivo(ArrayList<String> lista){
 		try(FileWriter escritor = new FileWriter("Javagotchis.txt");){
 			for(int i = 0; i < listaJavagotchi.size(); i++){
 				escritor.write(listaJavagotchi.get(i) + "\n");
@@ -142,5 +128,17 @@ public class Main {
 			System.out.println("Algum erro aconteceu durante a escrita!");
 			e.printStackTrace();
 		}
+	}
+
+	private static String criar(String mensagem){
+		String nome;
+		do{
+			System.out.print("Digite o " + mensagem + " nome do seu Javagotchi: ");
+			nome = sc.nextLine();
+			System.out.print("\nNOVO NOME: " + nome + "\nDeseja manter o nome? \n1 - Sim\n2 - Não\n\nDigite sua escolha: ");
+			opcao = Integer.parseInt(sc.nextLine());
+		}while(opcao != 1);
+
+		return nome;
 	}
 }
