@@ -52,4 +52,22 @@ public class Javagotchi {
     public void setNome(String nome){
         this.nome = nome;
     }
+
+    public void Alimentar(int fome){
+        if(fome <= 0 ){
+            System.out.println("JÁ ESTOU SATISFEITO");
+        }else{
+            int comer = fome - 10;
+            System.out.println("FOME = " + comer);
+        }
+    }
+    public void brincar(int tedio){
+        System.out.println("Brincado");
+    }
+    public void banho(int higiene){
+        System.out.println("Banhado");
+    }
+    public void dormir(int sono){
+        System.out.println("Dormido");
+    }
 }

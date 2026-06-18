@@ -42,6 +42,13 @@ public class Main {
 
 		String[] escolhido = listaJavagotchi.get(opcao).trim().split(",");
 
+		jc.setNome(escolhido[0]);
+		jc.setHp(Integer.parseInt(escolhido[1]));
+		jc.setFome(Integer.parseInt(escolhido[2]));
+		jc.setIdade(Integer.parseInt(escolhido[3]));
+		jc.setHigiene(Integer.parseInt(escolhido[4]));
+		jc.setEnergia(Integer.parseInt(escolhido[5]));
+
 		String save = "saves/Save" + escolhido[0].replaceAll("\\s+","") + ".txt";
 
 		try(FileWriter escritor = new FileWriter(save)){
@@ -52,7 +59,7 @@ public class Main {
 		}
 
 		System.out.println("-- JAVAGOTCHI CARREGADO -- ");
-		
+		Jogo.startGame(jc);
 	}
 
 	private static void criarJavagotchi(){
