@@ -45,23 +45,25 @@ public class Main {
 		System.out.print("Digite o id do Javagotchi que deseja carregar: ");
 		opcao = Integer.parseInt(sc.nextLine());
 
-		String[] escolhido = listaJavagotchi.get(opcao).trim().split(",");
+		if(outOfIndex(opcao)){
+			String[] escolhido = listaJavagotchi.get(opcao).trim().split(",");
 
-		jc.setNome(escolhido[0]);
-		jc.setHp(Integer.parseInt(escolhido[1]));
-		jc.setFome(Integer.parseInt(escolhido[2]));
-		jc.setIdade(Integer.parseInt(escolhido[3]));
-		jc.setHigiene(Integer.parseInt(escolhido[4]));
-		jc.setEnergia(Integer.parseInt(escolhido[5]));
+			jc.setNome(escolhido[0]);
+			jc.setHp(Integer.parseInt(escolhido[1]));
+			jc.setFome(Integer.parseInt(escolhido[2]));
+			jc.setIdade(Integer.parseInt(escolhido[3]));
+			jc.setHigiene(Integer.parseInt(escolhido[4]));
+			jc.setEnergia(Integer.parseInt(escolhido[5]));
 
-		System.out.println("-- JAVAGOTCHI CARREGADO -- ");
-		Jogo.startGame(jc);
+			System.out.println("-- JAVAGOTCHI CARREGADO -- ");
+			Jogo.startGame(jc);
 
-		listaJavagotchi.set(opcao, jc.getNome() + "," + jc.getHp() + "," + jc.getFome() + "," + jc.getIdade() + "," + jc.getHigiene() + "," + jc.getEnergia());
-		
-		escreverArquivo(listaJavagotchi);
-		clearConsole();
-		System.out.println("DADOS SALVOS NO ARQUIVO \"Javagotchi.txt\"");
+			listaJavagotchi.set(opcao, jc.getNome() + "," + jc.getHp() + "," + jc.getFome() + "," + jc.getIdade() + "," + jc.getHigiene() + "," + jc.getEnergia());
+			
+			escreverArquivo(listaJavagotchi);
+			clearConsole();
+			System.out.println("DADOS SALVOS NO ARQUIVO \"Javagotchi.txt\"");
+		}
 	}
 
 	private static void criarJavagotchi(){
@@ -109,13 +111,15 @@ public class Main {
 		System.out.print("Digite o id do Javagotchi que deseja atualizar: ");
 		int id = Integer.parseInt(sc.nextLine());
 
-		listaJavagotchi.set(id, criar("novo ") + "," + jc.getHp() + "," + jc.getFome() + "," + jc.getIdade() + "," + jc.getHigiene() + "," + jc.getEnergia());
+		if(outOfIndex(id)){
+			listaJavagotchi.set(id, criar("novo ") + "," + jc.getHp() + "," + jc.getFome() + "," + jc.getIdade() + "," + jc.getHigiene() + "," + jc.getEnergia());
 
-		escreverArquivo(listaJavagotchi);
+			escreverArquivo(listaJavagotchi);
 
-		clearConsole();
+			clearConsole();
 
-		System.out.println("-- JAVAGOTCHI ATUALIZADO E SALVO COM SUCESSO --");
+			System.out.println("-- JAVAGOTCHI ATUALIZADO E SALVO COM SUCESSO --");
+		}
 	}
 
 	private static void apagarJavagotchi(){
@@ -128,13 +132,15 @@ public class Main {
 		System.out.print("Digite o id do Javagotchi que deseja apagar: ");
 		opcao = Integer.parseInt(sc.nextLine());
 
-		listaJavagotchi.remove(opcao);
+		if(outOfIndex(opcao)){
+			listaJavagotchi.remove(opcao);
 
-		escreverArquivo(listaJavagotchi);
+			escreverArquivo(listaJavagotchi);
 
-		clearConsole();
-		
-		System.out.println("-- VOCÊ APAGOU UM JAVAGOTCHI, ISSO NÃO LHE ENTRISTECE? VOCÊ É MESMO HUMANO? --");
+			clearConsole();
+			
+			System.out.println("-- VOCÊ APAGOU UM JAVAGOTCHI, ISSO NÃO LHE ENTRISTECE? VOCÊ É MESMO HUMANO? --");
+		}
 	}
 
 	private static void escreverArquivo(ArrayList<String> lista){
@@ -158,6 +164,15 @@ public class Main {
 		}while(opcao != 1);
 
 		return nome;
+	}
+
+	private static boolean outOfIndex(int id){
+		if(id < 0 || id >= listaJavagotchi.size()){
+			clearConsole();
+			System.out.println("ID NÃO ENCONTRADO");
+			return false;
+		}
+		return true;
 	}
 
 	private static void clearConsole(){
